@@ -1,30 +1,27 @@
-func (l *lista) removerInicio() (int, bool) {
-	if l.inicio == nil {
+func (l *lista) removerPosicao(posicao int) (int, bool) {
+	if posicao < 0 || l.inicio == nil {
 		return 0, false
 	}
 
-	removido := l.inicio
-	l.inicio = removido.proximo
-	return removido.valor, true
-}
-
-func (l *lista) removerFim() (int, bool) {
-	if l.inicio == nil {
-		return 0, false
-	}
-
-	if l.inicio.proximo == nil {
+	if posicao == 0 {
 		valor := l.inicio.valor
-		l.inicio = nil
+		l.inicio = l.inicio.proximo
 		return valor, true
 	}
 
-	atual := l.inicio
-	for atual.proximo.proximo != nil {
-		atual = atual.proximo
+	anterior := l.inicio
+	for i := 0; i < posicao-1; i++ {
+		if anterior.proximo == nil {
+			return 0, false
+		}
+		anterior = anterior.proximo
 	}
 
-	valor := atual.proximo.valor
-	atual.proximo = nil
+	if anterior.proximo == nil {
+		return 0, false
+	}
+
+	valor := anterior.proximo.valor
+	anterior.proximo = anterior.proximo.proximo
 	return valor, true
 }
